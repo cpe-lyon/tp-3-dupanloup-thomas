@@ -6,6 +6,7 @@
 __1. Quels sont les 5 derniers paquets installés sur votre machine ?__
 
 
+
 __2. Utiliser dpkg et apt pour compter le nombre de paquets installés (ne pas hésiter à consulter le manuel !).
 Comment explique-t-on la (petite) différence de comptage ?__
 
