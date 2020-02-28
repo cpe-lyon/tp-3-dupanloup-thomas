@@ -5,10 +5,16 @@
 
 __1. Quels sont les 5 derniers paquets installés sur votre machine ?__
 
+commandes :<br>
+$cd /var/log<br>
+$cat dpkg.log<br>
+$grep "install " dpkg.log
 
+On peut récupérer les 5 dernières lignes qui nous montrent quels paquets ont étés installés.(ex: linux-headers)
 
 __2. Utiliser dpkg et apt pour compter le nombre de paquets installés (ne pas hésiter à consulter le manuel !).
 Comment explique-t-on la (petite) différence de comptage ?__
+
 
 
 __3. Combien de paquets sont disponibles en téléchargement ?__
