@@ -142,4 +142,26 @@ reprepro -b . includedeb cosmic origine-commande.deb
 ```
 deb file:/home/DUPANLOUP-THOMAS/repo-cpe cosmic multiverse
 ```
+7. Nous lancons la commande ``` sudo apt update```et nous pouvons remarquer que notre dépôt ne peut être pris en compte puisque non signé.
+
+### Signature du dépôt avec GPG
+
+1. Génération d'une nouvelle paire de clé : 
+``` 
+gpg --gen-key
+Real name: DUPANLOUP-THOMAS
+Email address: shana.dupanloup@cpe.fr
+passphrase : **********
+```
+2. Avec nano nous rajoutons ```SignWith: yes``` au fichier **distributions**
+
+3. Nous ajoutons ensuite la clé à notre dépôt en éxecutant la commande:  
+```reprepro --ask-passphrase -b . export```
+
+4. Ajout de notre clé publique à notre dépôt avec la commande :  
+```gpg --export -a "auteur" > public.key```
+
+5. Ajout de cette clé à la liste des clés fiables connues de apt :  
+```sudo apt-key add public.key```
+
 
