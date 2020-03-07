@@ -63,10 +63,28 @@ echo "UNINSTALLED";
 ### Exercice 4
 
 __Lister les programmes livrés avec coreutils. A quoi sert la commande ’[’ et comment afficher ce qu’elle
-retourne ? __
+retourne ?__
+
+On utilise le script dpkt -s coreutils pour avoir une description et notamment la liste des commandes contenues. 
+La commande [ permet de faire une comparaison : comparer le type d'un fichier ou sa valeur. Elle renvoit un booléen Vrai/Faux.
+Pour voir le résultat on peut utiliser la commande : [ <parametre1> <condition> <parametre2> ] && echo "TRUE" ;
+Si elle renvoit TRUE alors elle est vrai, sinon elle ne renvoit rien.
 
 
+### Exercice 5
 
+__Installez le paquet emacs à l’aide de la version graphique d’aptitude.__
 
+On instale aptitude avec la commande sudo apt install aptitude
+On lance aptitude avec la commande $aptitude qui nous ouvre l'interface graphique
+On utilise "/" pour rechercher le paquet emacs 
+On l'installe ensuite en le selectionnant avec +
 
+## Exercice 6
 
+__Certains logiciels ne figurent pas dans les dépôts officiels. C’est le cas par exemple de la version ”officielle”
+de Java depuis qu’elle est développée par Oracle. Dans ces cas, on peut parfois se tourner vers un ”dépôt
+personnel” ou PPA.__
+
+__1. Installer la version Oracle de Java (avec l’ajout des PPA)__
+Pour cela on utilise les 3 commandes différentes
