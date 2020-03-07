@@ -73,11 +73,11 @@ retourne ? __
 1. Placement dans le dossier scripts :
 ```cd ~/scripts```
 
-Création du sous-dossier **origine-commande** d'un autre sous-dossier **DEBIAN** ainsi que l'arborescence **usr/local/bin** :  
+Création du sous-dossier **origine-commande**, d'un autre sous-dossier **DEBIAN** ainsi que l'arborescence **usr/local/bin** :  
 ```mkdir -p origine-commande/DEBIAN```  
 ```mkdir -p usr/local/bin```  
 
-2. Placement place dans le bon dossier :
+2. Placement dans le bon dossier :
 ```cd origine-commande/DEBIAN```
 Création du fichier **control**:  
 ```
@@ -126,9 +126,9 @@ Architectures: i386 amd64
 Components: universe  
 Description: Une description du dépôt 
 ```
-4. Nous devons d'abord installer la commande **reprepro** puis nous génèrerons l'arborescence du dépôt avec la commande ```reprepro -b . export ```
+4. Nous devons d'abord installer le paquet **reprepro** puis nous génèrerons l'arborescence du dépôt avec la commande ```reprepro -b . export ```
 
-5. Nous copions le paquet **origine-commande.deb** dans la racine et le dossier **packages** avec la commande :  
+5. Nous copions le paquet **origine-commande.deb** dans la racine et dans le dossier **packages** avec la commande :  
 ```
 cp ~/script/origine-commande.deb ./packages
 cp ~/script/origine-commande.deb 
