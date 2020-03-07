@@ -35,7 +35,38 @@ On utilise la commande $grep -c "apt install" /var/log/apt/history.log
 
 
 ### Exercice 2
+
 __A partir de quel paquet est installée la commande ls ? Comment obtenir cette information en une seule
 commande, pour n’importe quel programme (indice : la réponse est dans le poly de cours 2, dans la liste des
 commandes utiles) ? Utilisez la réponse à pour écrire un script appelé origine-commande (sans l’extension
 .sh) prenant en argument le nom d’une commande, et indiquant quel paquet l’a installée.__
+
+which ls | xargs dpkg -S | cut -d ":" -f 1 est la commande qui permet de trouver le packet à partir duquel la commande ls a été installée. 
+
+Pour créer un exectuable qui utilise la commande vi et on entre juste la ligne de code 
+which $1 | xargs dpkg -S | cut -d ":" -f 1 
+
+Il faudra penser à utiliser la commande chmod u+x origine-commande pour rendre le fichier executable. 
+
+### Exercice 3
+
+__Ecrire une commande qui affiche “INSTALLÉ” ou “NON INSTALLÉ” selon le nom et le statut du package
+spécifié dans cette commande.__
+
+Afin de créer un script répondant aux attentes j'ai utilisé le code suivant : 
+
+#!/bin/bash
+test=$(apt list --installed | grep -c $1)
+[ "$test" -gt 0 ] && echo "INSTALLED" && exit;
+echo "UNINSTALLED";
+
+### Exercice 4
+
+__Lister les programmes livrés avec coreutils. A quoi sert la commande ’[’ et comment afficher ce qu’elle
+retourne ? __
+
+
+
+
+
+
