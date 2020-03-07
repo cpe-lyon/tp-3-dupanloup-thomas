@@ -127,3 +127,19 @@ Components: universe
 Description: Une description du dépôt 
 ```
 4. Nous devons d'abord installer la commande **reprepro** puis nous génèrerons l'arborescence du dépôt avec la commande ```reprepro -b . export ```
+
+5. Nous copions le paquet **origine-commande.deb** dans la racine et le dossier **packages** avec la commande :  
+```
+cp ~/script/origine-commande.deb ./packages
+cp ~/script/origine-commande.deb 
+```
+Ensuite nous éxecutons la commande suivante pour inscrire notre paquet dans le dépôt :  
+```
+reprepro -b . includedeb cosmic origine-commande.deb
+```
+6.On crée un nouveau fichier **repo-cpe.list** dans le fichier **/etc/apt/sources.list.d** :   
+``` sudo nano /etc/apt/sources.list.d/repo-cpe.list``` et on ajoute la configuration du dépôt
+```
+deb file:/home/DUPANLOUP-THOMAS/repo-cpe cosmic multiverse
+```
+
