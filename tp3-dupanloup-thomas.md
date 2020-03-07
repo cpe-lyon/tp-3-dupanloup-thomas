@@ -227,4 +227,4 @@ On lance cet executable avec la commande ```sudo ./configure```
 Cependant une erreur nous est renvoyée, après de longues recherches il semblerait que la solution soit le fait que le package pkg-config soit manquant. On l'ajoute donc avec ```sudo apt install pkg-config```
 Ensuite on se rend compte que le paquet ncurses n'est pas installé alors qu'il est nécéssaire pour lancer ```sudo ./configure```. On l'installe donc avec la commande : ```sudo apt install libncurses5-dev libncursesw5-dev```.
 Finalement on peut executer le "configure" sans aucun souci. Celui ci a bien créer un Makefile adapté à notre machine et ses spécifications. 
-
+Nous avons ensuite lancé la commande ```sudo checkinstall ``` cependant il semble que cette dernière ai renvoyé une erreur. Après l'execution de cette commande il semble que la VM ne soit plus utilisable. Après une tentative de reboot il est impossible d'acceder à la VM à nouveau. 
