@@ -1,12 +1,13 @@
-# TP2 - Bash
+# TP3 - Bash
 ## Dupanloup - Thomas
 
 ### Exercice 1 - Commandes de base
 
 __1. Quels sont les 5 derniers paquets installés sur votre machine ?__
 
+```
 $grep "install " /var/log/dpkg.log
-
+```
 On peut récupérer les 5 dernières lignes qui nous montrent quels paquets ont étés installés.(ex: linux-headers)
 
 __2. Utiliser dpkg et apt pour compter le nombre de paquets installés (ne pas hésiter à consulter le manuel !).
@@ -63,28 +64,66 @@ echo "UNINSTALLED";
 ### Exercice 4
 
 __Lister les programmes livrés avec coreutils. A quoi sert la commande ’[’ et comment afficher ce qu’elle
-retourne ?__
+retourne ? __
 
-On utilise le script dpkt -s coreutils pour avoir une description et notamment la liste des commandes contenues. 
-La commande [ permet de faire une comparaison : comparer le type d'un fichier ou sa valeur. Elle renvoit un booléen Vrai/Faux.
-Pour voir le résultat on peut utiliser la commande : [ <parametre1> <condition> <parametre2> ] && echo "TRUE" ;
-Si elle renvoit TRUE alors elle est vrai, sinon elle ne renvoit rien.
+### Exercice 7. Création de dépôt personalisé
 
+### Création d’un paquet Debian avec dpkg-deb
 
-### Exercice 5
+1. Placement dans le dossier scripts :
+```cd ~/scripts```
 
-__Installez le paquet emacs à l’aide de la version graphique d’aptitude.__
+Création du sous-dossier **origine-commande** d'un autre sous-dossier **DEBIAN** ainsi que l'arborescence **usr/local/bin** :  
+```mkdir -p origine-commande/DEBIAN```  
+```mkdir -p usr/local/bin```  
 
-On instale aptitude avec la commande sudo apt install aptitude
-On lance aptitude avec la commande $aptitude qui nous ouvre l'interface graphique
-On utilise "/" pour rechercher le paquet emacs 
-On l'installe ensuite en le selectionnant avec +
+2. Placement place dans le bon dossier :
+```cd origine-commande/DEBIAN```
+Création du fichier **control**:  
+```
+nano control 
+```
+il contient: 
+```
+Package: origine-commande 
+Version: 0.1 #numéro de version
+Maintainer: DUPANLOUP-THOMAS 
+Architecture: all 
+Description: Cherche l'origine d'une commande
+Section: utils 
+Priority: optional 
+```  
+3. Construction du paquet que nous avons créé :
+```
+cd $HOME
+dpkg-deb --build origine-commande
+```
 
-## Exercice 6
+### Création du dépôt personnel avec reprepro
 
-__Certains logiciels ne figurent pas dans les dépôts officiels. C’est le cas par exemple de la version ”officielle”
-de Java depuis qu’elle est développée par Oracle. Dans ces cas, on peut parfois se tourner vers un ”dépôt
-personnel” ou PPA.__
-
-__1. Installer la version Oracle de Java (avec l’ajout des PPA)__
-Pour cela on utilise les 3 commandes différentes
+1. Nous créons la racine de notre dépôt : **repo-cpe**  
+```
+mkdir repo-cpe
+```
+2. Nous y ajoutons ensuite les sous-dossiers **conf ** et **packages **:  
+```
+cd repo-cpe 
+mkdir conf
+mkdir packages
+```
+3. Dans le dossier **conf** nous créons un fichier **distributions** :  
+```
+cd conf 
+nano distributions 
+```
+il contient:
+```
+Origin: DUPANLOUP-THOMAS
+Label: repo-cpe
+// Suite: stable 
+Codename: cosmic 
+Architectures: i386 amd64 
+Components: universe  
+Description: Une description du dépôt 
+```
+4. Nous devons d'abord installer la commande **reprepro** puis nous génèrerons l'arborescence du dépôt avec la commande ```reprepro -b . export ```
