@@ -13,27 +13,27 @@ On peut récupérer les 5 dernières lignes qui nous montrent quels paquets ont 
 __2. Utiliser dpkg et apt pour compter le nombre de paquets installés (ne pas hésiter à consulter le manuel !).
 Comment explique-t-on la (petite) différence de comptage ?__
 
-Par dpkg ```bash -l | grep -c " ii " ``` on obtient 548 packets installés.
-Par apt list --installed | wc -l on obtient 549 packets installés mais il faut en enlever un car la premiere ligne affichée par ```bash apt list --installed ``` n'est pas un paquet installé.
+Par ```dpkg  -l | grep -c " ii " ``` on obtient 548 packets installés.
+Par apt list --installed | wc -l on obtient 549 packets installés mais il faut en enlever un car la premiere ligne affichée par ``` apt list --installed ``` n'est pas un paquet installé.
 
 __3. Combien de paquets sont disponibles en téléchargement ?__
 
  On obtient le nombre de paquets disponibles par téléchargement
-```bash sudo apt list | wc -l ``` et on obtient 61599 
+```sudo apt list | wc -l ``` et on obtient 61599 
 
 __4. Créer un alias “maj” qui met à jour le système__
-```bash alias mj="sudo apt update && sudo apt dist-upgrade && sudo apt autoremove" ``` permet de faire un alias de mise à jour qui upgrade même le systeme de distribution et supprime les paquets qui ne sont plus utilisés.
+```alias mj="sudo apt update && sudo apt dist-upgrade && sudo apt autoremove" ``` permet de faire un alias de mise à jour qui upgrade même le systeme de distribution et supprime les paquets qui ne sont plus utilisés.
 
 __5. A quoi sert le paquet fortunes ? Installez-le.__
 
-On installe le package en utilisant la commande ```bash sudo apt install fortunes -y```
+On installe le package en utilisant la commande ```sudo apt install fortunes -y```
 Ce packages est une commande $fortune qui renvoit des messages de "fortune cookie" comme on trouve dans les fameux biscuits.  
 
 __6. Quels paquets proposent de jouer au sudoku ?__
-On utilise la commande ```bash apt search sudoku``` pour voir l'ensemble des packages qui contiennet dans leur description le mot sudoku. 
+On utilise la commande ```apt search sudoku``` pour voir l'ensemble des packages qui contiennet dans leur description le mot sudoku. 
 
 __7. Lister les derniers paquets installés explicitement avec la commande apt install__
-On utilise la commande ```bash grep -c "apt install" /var/log/apt/history.log 	```
+On utilise la commande ```grep -c "apt install" /var/log/apt/history.log 	```
 
 
 ### Exercice 2
@@ -43,12 +43,12 @@ commande, pour n’importe quel programme (indice : la réponse est dans le poly
 commandes utiles) ? Utilisez la réponse à pour écrire un script appelé origine-commande (sans l’extension
 .sh) prenant en argument le nom d’une commande, et indiquant quel paquet l’a installée.__
 
-```bash which ls | xargs dpkg -S | cut -d ":" -f 1 ``` est la commande qui permet de trouver le packet à partir duquel la commande ls a été installée. 
+```which ls | xargs dpkg -S | cut -d ":" -f 1 ``` est la commande qui permet de trouver le packet à partir duquel la commande ls a été installée. 
 
 Pour créer un exectuable qui utilise la commande vi et on entre juste la ligne de code 
-```bash which $1 | xargs dpkg -S | cut -d ":" -f 1 ```
+```which $1 | xargs dpkg -S | cut -d ":" -f 1 ```
 
-Il faudra penser à utiliser la commande ```bash chmod u+x origine-commande ``` pour rendre le fichier executable. 
+Il faudra penser à utiliser la commande ```chmod u+x origine-commande ``` pour rendre le fichier executable. 
 
 ### Exercice 3
 
@@ -70,7 +70,7 @@ retourne ?__
 
 On utilise le script dpkt -s coreutils pour avoir une description et notamment la liste des commandes contenues. 
 La commande ```[``` permet de faire une comparaison : comparer le type d'un fichier ou sa valeur. Elle renvoit un booléen Vrai/Faux.
-Pour voir le résultat on peut utiliser la commande : ```bash[ <parametre1> <condition> <parametre2> ] && echo "TRUE" ;```
+Pour voir le résultat on peut utiliser la commande : ```[ <parametre1> <condition> <parametre2> ] && echo "TRUE" ;```
 Si elle renvoit TRUE alors elle est vrai, sinon elle ne renvoit rien. 
 
 
@@ -199,3 +199,32 @@ passphrase : **********
 
 
  ### Exercice 8
+
+
+Pour cet exercice nous tout d'abord du installer un certain nombre de packets afin de pouvoir faire l'installation de nudoku car ces derniers étaient des dépendances. 
+Nous avons donc utilisé les commandes suivantes : 
+```bash
+sudo apt install autoconf
+sudo apt install autopoint
+sudo apt install gettext 
+sudo apt install libtool
+sudo apt install checkinstall
+```
+
+Le problème est que la version de Gettext qui est installé par ce biais est la version : 0.19.8.1 ( On obtient cette information à l'aide de la commande ```gettext --version``` ) alors que afin d'executer la commande ```autoreconf -i``` il est nécéssaire d'avoir la version 0.20 ou plus récent de gettext. Hors nous n'arrivons pas à installer cette version met en téléchargeant le packet avec Git. Il semblerant que autoconf ne soit pas non plus fonctionnel or il est nécéssaire pour installer la version de gettext. 
+
+__Solution:__
+On a utilisé la commande suivante : 
+```wget "https://ftp.gnu.org/pub/gnu/gettext/gettext-0.20.1.tar.gz."```
+Une fois fait on lance ```./configure```
+Mais cela nous renvoit une erreur car il est nécéssaire d'avoir le compalateur C gcc installé. 
+On installe donc ce compilateur : ```sudo apt install gcc```
+Le programme s'execute correctement ensuite. 
+On utilise ensuite la commande Make pour ```make install```cdcd 
+
+Maintenant que nous avons gettext en version 0.20.1 nous pouvons utiliser la commande ```autoreconf -i``` pour créer notre executable "configure". 
+On lance cet executable avec la commande ```sudo ./configure```
+Cependant une erreur nous est renvoyée, après de longues recherches il semblerait que la solution soit le fait que le package pkg-config soit manquant. On l'ajoute donc avec ```sudo apt install pkg-config```
+Ensuite on se rend compte que le paquet ncurses n'est pas installé alors qu'il est nécéssaire pour lancer ```sudo ./configure```. On l'installe donc avec la commande : ```sudo apt install libncurses5-dev libncursesw5-dev```.
+Finalement on peut executer le "configure" sans aucun souci. Celui ci a bien créer un Makefile adapté à notre machine et ses spécifications. 
+
